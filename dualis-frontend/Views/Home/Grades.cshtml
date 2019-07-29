@@ -1,0 +1,39 @@
+@using dualis_frontend.Models
+@{
+    ViewBag.Title = "Dualis Parser - " + ViewBag.Data.name;
+}
+
+<p class="h2 mb-5">
+    Hello name!
+    <a class="h4">
+        <span class="badge badge-primary">Cached results, <b>{{ cached }}</b> seconds left</span>
+    </a>
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Module</th>
+        <th scope="col">Unit</th>
+        <th scope="col">Grade</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (Module module in ViewBag.Data.modules)
+    {
+        <tr class="table-@(module.passed.HasValue ? module.passed.Value ? "success" : "danger" : "primary") @(module.grades.Length == 0 ? "d-none d-md-table-row" : "")@module.module_no">
+            <th scope="col">@module.module_name (@module.credits)</th>
+            <td></td>
+            <th>@module.final_grade@(module.passed.HasValue && module.passed.Value ? " (passed)" : "")</th>
+        </tr>
+        foreach (Grade grade in module.grades)
+        {
+            <tr>
+                <th scope="col"></th>
+                <td>@grade.name</td>
+                <td>@grade.grade</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
